@@ -1,10 +1,68 @@
-import React from 'react';
+import React, {useState} from 'react';
+import login from '../../assets/login.svg';
+import Navbar from '../../shared/Navbar';
+import {Link} from 'react-router-dom';
 
 const Registration = () => {
+    const [errMsg, setErrMsg] = useState(null);
+    const formController = (event) => {
+        event.preventDefault();
+        const form = event.target;
+        const email = form.email.value;
+        const password = form.password.value;
+        const confirmPassword = form.confirmPassword.value;
+        if(password !== confirmPassword) {
+            setErrMsg('Password is not matched.');
+            return;
+        }
+        const user = {email, password};
+        setErrMsg(null);
+        console.log(user);
+    };
     return (
-        <div>
-            <h2>Registration Page</h2>
-        </div>
+        <>
+            <Navbar></Navbar>
+            <div className="hero min-h-screen bg-base-200">
+                <div className="hero-content flex-col lg:flex-row-reverse gap-10 mt-16">
+                    <div className="flex justify-center w-full">
+                        <img src={login} alt="login_image" className='w-[35rem]' />
+                    </div>
+                    <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
+                        <div className="card-body">
+                            <h2 className='text-center text-2xl font-bold'>REGISTRATION</h2>
+                            <form onSubmit={formController}>
+                                <div className="form-control">
+                                    <label className="label">
+                                        <span className="label-text">Email</span>
+                                    </label>
+                                    <input type="email" name='email' placeholder="email" className="input input-bordered" />
+                                </div>
+                                <div className="form-control">
+                                    <label className="label">
+                                        <span className="label-text">Password</span>
+                                    </label>
+                                    <input type="password" name='password' placeholder="password" className="input input-bordered" />
+                                </div>
+                                <div className="form-control">
+                                    <label className="label">
+                                        <span className="label-text">Confirm Password</span>
+                                    </label>
+                                    <input type="password" name='confirmPassword' placeholder="confirm password" className="input input-bordered" />
+                                </div>
+                                <p className='text-red-600'>{errMsg}</p>
+                                <div className="form-control mt-5">
+                                    <button type='submit' className="btn btn-primary">Register</button>
+                                    <div className='flex gap-x-1 justify-center mt-2'>
+                                        <span>Already have an account?</span>
+                                        <Link to={"/login"} className="hover:underline text-blue-600 font-bold">Login</Link>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </>
     );
 };
 
