@@ -4,7 +4,7 @@ import About from "../pages/About/About";
 import AddQuestions from "../pages/AddQuestions/AddQuestions";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import Filter from "../pages/Filter/Filter";
-import Home from "../pages/Home/Home";
+import Home from "../pages/Home/Home/Home";
 import MyQuestions from "../pages/MyQuestions/MyQuestions";
 
 const router = createBrowserRouter([
