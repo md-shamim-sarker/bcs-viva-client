@@ -2,8 +2,8 @@ import React from 'react';
 
 const AddQuestions = () => {
     return (
-        <div>
-            Add Questions
+        <div className='mt-20'>
+            <p>Add Questions</p>
         </div>
     );
 };

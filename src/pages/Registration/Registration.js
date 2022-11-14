@@ -1,13 +1,17 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import login from '../../assets/login.svg';
 import Navbar from '../../shared/Navbar';
 import {Link} from 'react-router-dom';
+import {AuthContext} from '../../contexts/UserContext';
 
 const Registration = () => {
+    const {createUser} = useContext(AuthContext);
     const [errMsg, setErrMsg] = useState(null);
+
     const formController = (event) => {
         event.preventDefault();
         const form = event.target;
+        const fullName = form.fullName.value;
         const email = form.email.value;
         const password = form.password.value;
         const confirmPassword = form.confirmPassword.value;
@@ -15,9 +19,10 @@ const Registration = () => {
             setErrMsg('Password is not matched.');
             return;
         }
-        const user = {email, password};
+        const user = {fullName, email, password};
         setErrMsg(null);
         console.log(user);
+        createUser(fullName, email, password);
     };
     return (
         <>
@@ -31,6 +36,12 @@ const Registration = () => {
                         <div className="card-body">
                             <h2 className='text-center text-2xl font-bold'>REGISTRATION</h2>
                             <form onSubmit={formController}>
+                                <div className="form-control">
+                                    <label className="label">
+                                        <span className="label-text">Full Name</span>
+                                    </label>
+                                    <input type="text" name='fullName' placeholder="full name" className="input input-bordered" />
+                                </div>
                                 <div className="form-control">
                                     <label className="label">
                                         <span className="label-text">Email</span>
