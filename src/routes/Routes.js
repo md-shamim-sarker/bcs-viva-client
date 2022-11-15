@@ -17,6 +17,7 @@ const router = createBrowserRouter([
         children: [
             {
                 path: "/",
+                loader: () => fetch('https://bcs-viva-server.vercel.app/questions'),
                 element: <Home></Home>
             },
             {

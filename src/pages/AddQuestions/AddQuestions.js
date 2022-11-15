@@ -15,12 +15,26 @@ const AddQuestions = () => {
         const question = form.question.value;
         const answer = form.answer.value;
         const addDate = Date().slice(4, 15);
-        const filter = {email, uid, topic, hardLevel, importancy, access, question, answer, addDate};
-        console.log(filter);
+        const questions = {email, uid, topic, hardLevel, importancy, access, question, answer, addDate};
+        console.log(questions);
+
+        fetch('https://bcs-viva-server.vercel.app/questions', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(questions)
+        })
+            .then(() => {
+                console.log('Data added successfully!!');
+            })
+            .catch(err => {
+                console.log(err);
+            });
     };
     return (
-        <div className='w-11/12 lg:w-1/4 mx-auto mt-24 mb-14'>
-            <h2 className='text-3xl font-bold text-center'>Add Questions</h2>
+        <div className='w-11/12 lg:w-2/4 mx-auto mt-24 mb-14'>
+            <h2 className='text-3xl font-bold text-center mb-5'>Add Questions</h2>
             <form onSubmit={onSubmitHandler}>
                 <div className="form-control w-full">
                     <label className="label">
