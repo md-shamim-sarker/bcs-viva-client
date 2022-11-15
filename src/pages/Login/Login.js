@@ -3,20 +3,68 @@ import login from '../../assets/login.svg';
 import {FcGoogle} from 'react-icons/fc';
 import {SiFacebook} from 'react-icons/si';
 import Navbar from '../../shared/Navbar';
-import {Link} from 'react-router-dom';
+import {Link, useLocation, useNavigate} from 'react-router-dom';
 import {AuthContext} from '../../contexts/UserContext';
 
 const Login = () => {
     const [email, setEmail] = useState(null);
+    const [errorMessage, setErrorMessage] = useState(null);
     const {signInWithGoogle, signInWithFacebook, signInUser, passwordReset} = useContext(AuthContext);
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || '/';
 
+    // Sign in with email and password
     const formController = (event) => {
         event.preventDefault();
         const form = event.target;
         const email = form.email.value;
         const password = form.password.value;
         setEmail(email);
-        signInUser(email, password);
+        setErrorMessage(null);
+        signInUser(email, password)
+            .then((result) => {
+                console.log(result);
+                navigate("/my-questions");
+            })
+            .catch((err) => {
+                const errMsg = err.message;
+                console.log(errMsg);
+                setErrorMessage(errMsg.split(': ')[1]);
+            });
+    };
+
+    // Sign in with google
+    const signInWithGoogleHandler = () => {
+        signInWithGoogle()
+            .then((result) => {
+                console.log(result);
+                navigate(from, {replace: true});
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+
+    // Sign in with facebook
+    const signInWithFacebookHandler = () => {
+        signInWithFacebook()
+            .then((result) => {
+                console.log(result);
+                navigate(from, {replace: true});
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+
+    // Password reset
+    const passwordResetHandler = () => {
+        passwordReset(email)
+            .then(() => {
+                alert(`Password reset email send to ${email}`);
+            })
+            .catch(err => console.log(err));
     };
 
     return (
@@ -43,7 +91,8 @@ const Login = () => {
                                     </label>
                                     <input type="password" name='password' placeholder="password" className="input input-bordered" />
                                     <label className="label">
-                                        <button onClick={() => passwordReset(email)} className="label-text-alt link link-hover">Forgot password?</button>
+                                        <button onClick={passwordResetHandler} className="label-text-alt link link-hover underline">Forgot password?</button>
+                                        <span className='text-red-600 text-sm'>{errorMessage}</span>
                                     </label>
                                 </div>
                                 <div className="form-control">
@@ -56,8 +105,8 @@ const Login = () => {
                             </form>
                             <div className="divider">Or Login With</div>
                             <div className='flex justify-center gap-3'>
-                                <FcGoogle onClick={signInWithGoogle} className='w-5 h-5 cursor-pointer' title='Login with Google'></FcGoogle>
-                                <SiFacebook onClick={signInWithFacebook} className='w-5 h-5 text-blue-600 cursor-pointer' title='Login with Facebook'></SiFacebook>
+                                <FcGoogle onClick={signInWithGoogleHandler} className='w-5 h-5 cursor-pointer' title='Login with Google'></FcGoogle>
+                                <SiFacebook onClick={signInWithFacebookHandler} className='w-5 h-5 text-blue-600 cursor-pointer' title='Login with Facebook'></SiFacebook>
                             </div>
                         </div>
                     </div>

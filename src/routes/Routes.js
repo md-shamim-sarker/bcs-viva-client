@@ -8,6 +8,7 @@ import Home from "../pages/Home/Home/Home";
 import Login from "../pages/Login/Login";
 import MyQuestions from "../pages/MyQuestions/MyQuestions";
 import Registration from "../pages/Registration/Registration";
+import PrivateRoutes from "./PrivateRoutes";
 
 const router = createBrowserRouter([
     {
@@ -28,11 +29,11 @@ const router = createBrowserRouter([
             },
             {
                 path: "/my-questions",
-                element: <MyQuestions></MyQuestions>
+                element: <PrivateRoutes><MyQuestions></MyQuestions></PrivateRoutes>
             },
             {
                 path: "/add-questions",
-                element: <AddQuestions></AddQuestions>
+                element: <PrivateRoutes><AddQuestions></AddQuestions></PrivateRoutes>
             },
         ],
         errorElement: <ErrorPage></ErrorPage>

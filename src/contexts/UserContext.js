@@ -10,74 +10,57 @@ const facebookProvider = new FacebookAuthProvider();
 
 const UserContext = ({children}) => {
     const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     // Sign in with google
     const signInWithGoogle = () => {
-        signInWithPopup(auth, googleProvider)
-            .then((result) => {
-                console.log(result);
-            }).catch((error) => {
-                console.log(error.message);
-            });
+        setLoading(true);
+        return signInWithPopup(auth, googleProvider);
     };
 
     // Sign in with facebook
     const signInWithFacebook = () => {
-        signInWithPopup(auth, facebookProvider)
-            .then((result) => {
-                console.log(result);
-            })
-            .catch((error) => {
-                console.log(error.message);
-            });
+        setLoading(true);
+        return signInWithPopup(auth, facebookProvider);
     };
 
     // Create user with email and password
-    const createUser = (fullName, email, password) => {
-        createUserWithEmailAndPassword(auth, email, password)
-            .then(() => {
-                logOut();
-                updateProfile(auth.currentUser, {
-                    displayName: fullName
-                }).then(() => {
-                    sendEmailVerification(auth.currentUser)
-                        .then(() => {
-                            alert('Please check your email address!');
-                        });
-                }).catch((error) => {
-                    console.log(error);
-                });
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+    const createUser = (email, password) => {
+        return createUserWithEmailAndPassword(auth, email, password);
+    };
+
+    // Update user
+    const updateUser = (userObj) => {
+        return updateProfile(auth.currentUser, userObj);
+    };
+
+    // Send email verification
+    const emailVarification = () => {
+        return sendEmailVerification(auth.currentUser);
     };
 
     // Sign in user with user and password
     const signInUser = (email, password) => {
-        signInWithEmailAndPassword(auth, email, password)
-            .then(() => {
-            })
-            .catch(error => console.log(error));
+        setLoading(true);
+        return signInWithEmailAndPassword(auth, email, password);
     };
 
     // Password reset
     const passwordReset = (email) => {
-        sendPasswordResetEmail(auth, email)
-            .then(() => {
-                alert(`Send password reset email to ${email}`);
-            })
-            .catch((error) => {console.log(error);});
+        return sendPasswordResetEmail(auth, email);
     };
 
+    // Log out
     const logOut = () => {
-        signOut(auth).then(() => {}).catch((error) => {});
+        setLoading(true);
+        return signOut(auth);
     };
 
     // Current User Observer
     useEffect(() => {
         return () => onAuthStateChanged(auth, currentUser => {
             setUser(currentUser);
+            setLoading(false);
         });
     }, [user]);
 
@@ -88,7 +71,10 @@ const UserContext = ({children}) => {
         createUser,
         signInUser,
         logOut,
-        passwordReset
+        passwordReset,
+        updateUser,
+        emailVarification,
+        loading
     };
     return (
         <AuthContext.Provider value={authInfo}>

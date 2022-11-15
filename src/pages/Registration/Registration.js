@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom';
 import {AuthContext} from '../../contexts/UserContext';
 
 const Registration = () => {
-    const {createUser} = useContext(AuthContext);
+    const {createUser, updateUser, emailVarification, logOut} = useContext(AuthContext);
     const [errMsg, setErrMsg] = useState(null);
 
     const formController = (event) => {
@@ -22,7 +22,20 @@ const Registration = () => {
         const user = {fullName, email, password};
         setErrMsg(null);
         console.log(user);
-        createUser(fullName, email, password);
+        createUser(email, password)
+            .then(() => {
+                updateUser({displayName: fullName})
+                    .then(() => {
+                        emailVarification()
+                            .then(() => {
+                                logOut().then().catch();
+                                alert(`Send a email verification to ${email}`);
+                            })
+                            .then(err => console.log(err));
+                    })
+                    .then(err => console.log(err));
+            })
+            .catch(err => console.log(err));
     };
     return (
         <>

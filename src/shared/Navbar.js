@@ -7,11 +7,9 @@ import {AuthContext} from '../contexts/UserContext';
 const Navbar = () => {
     const [open, setOpen] = useState(false);
     const {user, logOut} = useContext(AuthContext);
-    // console.log(user);
 
     const openHandler = () => {
         setOpen(!open);
-        console.log(open);
     };
 
     return (
