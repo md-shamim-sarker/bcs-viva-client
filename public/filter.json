@@ -1,0 +1,31 @@
+{
+    "topic": [
+        "About Own",
+        "Cadre Choice",
+        "Own Country",
+        "Own University",
+        "Own Subject",
+        "Own Birthplace",
+        "Independence War",
+        "International Issues",
+        "Others Topic"
+    ],
+    "hard-level": [
+        "Easy",
+        "Medium",
+        "Hard"
+    ],
+    "importance": [
+        "Less Important",
+        "Medium Important",
+        "Most Important"
+    ],
+    "privacy": [
+        "public",
+        "private"
+    ],
+    "access": [
+        "All Public Questions",
+        "Only My Questions"
+    ]
+}

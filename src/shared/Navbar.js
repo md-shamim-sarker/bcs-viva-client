@@ -14,7 +14,7 @@ const Navbar = () => {
 
     return (
         <nav className='w-full flex justify-between items-center px-5 bg-blue-200 py-2 fixed top-0 z-50'>
-            <Link to={"/"} className="text-2xl font-bold">BCS VIVA</Link>
+            <Link to={"/"} className="text-xl font-bold">BCS VIVA</Link>
             <div className='flex justify-between items-center gap-x-5'>
                 {/* For Desktop */}
                 <div className='hidden lg:flex gap-x-5 items-center font-bold'>
